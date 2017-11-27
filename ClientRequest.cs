@@ -15,6 +15,7 @@ namespace Client
         {
             webRequest = WebRequest.Create($"http://{host}:{port}/{method}");
             webRequest.Method = httpMethod;
+            webRequest.Timeout = 100;
         }
 
         public Input GetQuery()

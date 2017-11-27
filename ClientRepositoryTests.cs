@@ -20,15 +20,16 @@ namespace Client
         [TestCase]
         public void Ping()
         {
-            var pinger = clientRepository.Ping("localhost", "4242");
+            var pinger = clientRepository.Ping("127.0.0.1", "8080");
             Assert.IsTrue(pinger);
         }
         [TestCase]
         public void GetInputDataAndWriteAnswer()
         {
-            Input input = clientRepository.GetInputData("localhost", "4242");
+            var input = clientRepository.GetInputData("127.0.0.1", "8080");
             Assert.NotNull(input);
-            clientRepository.WriteAnswer(new Output(input), "localhost", "4242");
+            Assert.IsInstanceOf(typeof(Input), input);
+            clientRepository.WriteAnswer(new Output(input), "127.0.0.1", "8080");
         }
     }
 }

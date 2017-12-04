@@ -9,6 +9,7 @@ namespace Client
 {
     class Serializer
     {
+        //todo: статические методы - плохо
         public static byte[] Serialize(Output output)
         {
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(output));

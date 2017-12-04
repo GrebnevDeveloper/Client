@@ -11,7 +11,7 @@ namespace Client
     {
         public Input GetInputData(string host, string port)
         {
-            return new ClientRequest(host, port, "GET", "GetInputData").GetQuery();
+            return new ClientRequest(host, port, "GET", "GetInputData").GetQuery<Input>();
         }
         public void WriteAnswer(Output output, string host, string port)
         {
@@ -20,7 +20,7 @@ namespace Client
 
         public bool Ping(string host, string port)
         {
-            if(new ClientRequest(host, port, "GET", "Ping")
+            if(new ClientRequest(host, port, "GET", "ping")
                 .GetPing()
                 .Equals(HttpStatusCode.OK))
             {
@@ -30,6 +30,15 @@ namespace Client
             {
                 return false;
             }
+        }
+
+        public Output GetAnswer(string host, string port)
+        {
+            return new ClientRequest(host, port, "GET", "getanswer").GetQuery<Output>();
+        }
+        public void PostInputData(Input input, string host, string port)
+        {
+            new ClientRequest(host, port, "POST", "postinputdata").PostQuery(input);
         }
     }
 }

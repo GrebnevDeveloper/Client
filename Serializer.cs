@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    class Serializer
+    class Serializer : ISerializer
     {
-        public static byte[] Serialize(Output output)
+        //todo: статические методы - плохо (check)
+        public byte[] Serialize<T>(T output)
         {
             return Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(output));
         }
 
-        public static Input Deserialize(byte[] source)
+        public T Deserialize<T>(byte[] source)
         {
-            return JsonConvert.DeserializeObject<Input>(Encoding.UTF8.GetString(source));
+            return JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(source));
         }
     }
 }

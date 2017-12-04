@@ -10,26 +10,30 @@ namespace Client
     [TestFixture]
     class ClientRepositoryTests
     {
-        private ClientRepository clientRepository;
+        public ClientRepository clientRepository;
 
         [SetUp]
         public void Setup()
         {
             clientRepository = new ClientRepository();
         }
-        [TestCase]
+        [Test]
         public void Ping()
         {
             var pinger = clientRepository.Ping("127.0.0.1", "8080");
             Assert.IsTrue(pinger);
         }
-        [TestCase]
-        public void GetInputDataAndWriteAnswer()
+        [Test]
+        public void PostInputDataAndGetAnswer()
         {
-            var input = clientRepository.GetInputData("127.0.0.1", "8080");
-            Assert.NotNull(input);
-            Assert.IsInstanceOf(typeof(Input), input);
-            clientRepository.WriteAnswer(new Output(input), "127.0.0.1", "8080");
+            Input input = new Input();
+            input.K = 10;
+            input.Sums = new decimal[] { 1.01M, 2.02M };
+            input.Muls = new int[] { 1, 4 };
+            clientRepository.PostInputData(input, "127.0.0.1", "8080");
+            Output output = clientRepository.GetAnswer("127.0.0.1", "8080");
+            Assert.IsInstanceOf(typeof(Output), output);
+            
         }
     }
 }

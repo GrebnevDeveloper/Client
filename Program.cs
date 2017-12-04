@@ -11,8 +11,13 @@ namespace Client
             ClientRepository client = new ClientRepository();
             if(client.Ping(host, port))
             {
-                Input input = client.GetInputData(host, port);
-                client.WriteAnswer(new Output(input), host, port);
+                Console.WriteLine("OK");
+                Input input = new Input();
+                input.K = 10;
+                input.Sums = new decimal[] { 1.01M, 2.02M };
+                input.Muls = new int[] { 1, 4 };
+                client.PostInputData(input, host, port);
+                Output output = client.GetAnswer(host, port);
             }
         }
     }

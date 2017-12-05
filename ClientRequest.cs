@@ -26,10 +26,11 @@ namespace Client
         {
             var response = webRequest.GetResponse();
             //todo: StreamReader нужно диспоузить (check)
-            var sr = new StreamReader(response.GetResponseStream());
-            var source = Encoding.UTF8.GetBytes(sr.ReadToEnd());
-            sr.Dispose();
-            return serializer.Deserialize<T>(source);
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+                var responseString = Encoding.UTF8.GetBytes(sr.ReadToEnd());
+                return serializer.Deserialize<T>(responseString);
+            }
         }
 
         //todo: СДелайте так чтобы метод мог отсылать сообщение с любым серилихованным типом, на дженериках (check)
@@ -38,9 +39,10 @@ namespace Client
             if(obj != null)
             {
                 //todo: StreamWriter нужно диспоузить (check)
-                var sw = new StreamWriter(webRequest.GetRequestStream());
-                sw.Write(Encoding.UTF8.GetString(serializer.Serialize<T>(obj)));
-                sw.Dispose();
+                using (var sw = new StreamWriter(webRequest.GetRequestStream()))
+                {
+                    sw.Write(Encoding.UTF8.GetString(serializer.Serialize<T>(obj)));
+                }
             }
         }
 

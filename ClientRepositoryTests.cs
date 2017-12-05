@@ -32,8 +32,8 @@ namespace Client
             input.Muls = new int[] { 1, 4 };
             clientRepository.PostInputData(input, "127.0.0.1", "8080");
             Output output = clientRepository.GetAnswer("127.0.0.1", "8080");
-            Assert.IsInstanceOf(typeof(Output), output);
-            
+            Output outputOrig = new Output(input);
+            Assert.AreEqual(outputOrig, output);      
         }
     }
 }
